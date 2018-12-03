@@ -25,6 +25,7 @@ import chat from '@/pages/chat'
 import russia from '@/pages/russia'
 import wordEdit from '@/pages/wordEdit'
 import dictEdit from '@/pages/dictEdit'
+import handleAdvice from '@/pages/handleAdvice'
 
 Vue.use(Router)
 
@@ -149,6 +150,11 @@ export default new Router({
       path: '/wordEdit',
       name: '单词编辑',
       component: wordEdit
+    },
+    {
+      path: '/handleAdvice',
+      name: '意见处理',
+      component: handleAdvice
     },
     {
       path: '/dictEdit',

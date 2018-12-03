@@ -400,6 +400,15 @@
               }
               this.menuItems.splice(-1, 0, menuItem)
             }
+            if (!this.hasMenuItem('意见处理')) {
+              let menuItem = {
+                name: '意见处理',
+                func: () => {
+                  this.$router.push({path: '/handleAdvice', query: {}})
+                }
+              }
+              this.menuItems.splice(-1, 0, menuItem)
+            }
           }
         },
         {

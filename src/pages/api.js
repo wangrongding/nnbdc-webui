@@ -35,6 +35,10 @@ export default {
     let params = {'page': page, 'rows': rows, 'sort': sort, 'order': order}
     return Vue.http.get(config.serviceBaseUrl + '/nnbdc-service/getForumPosts.do', {params: params})
   },
+  getMsgsByPage (page, rows, sort, order) {
+    let params = {'page': page, 'rows': rows}
+    return Vue.http.get(config.serviceBaseUrl + '/nnbdc-service/getMsgsByPage.do', {params: params})
+  },
   dismissStudyGroup (groupId, userId) {
     let params = {'groupId': groupId, 'userId': userId}
     return Vue.http.post(config.serviceBaseUrl + '/nnbdc-service/dismissStudyGroup.do', {emulateJSON: true}, {params: params})
@@ -58,6 +62,10 @@ export default {
   deleteStudyGroupPost (postId) {
     let params = {'postId': postId}
     return Vue.http.post(config.serviceBaseUrl + '/nnbdc-service/deleteStudyGroupPost.do', {emulateJSON: true}, {params: params})
+  },
+  deleteMsg (msgId) {
+    let params = {'msgId': msgId}
+    return Vue.http.post(config.serviceBaseUrl + '/nnbdc-service/deleteMsg.do', {emulateJSON: true}, {params: params})
   },
   createStudyGroupPost (groupId, postTitle, postContent) {
     let params = {'groupId': groupId, 'postTitle': postTitle, 'postContent': postContent}
