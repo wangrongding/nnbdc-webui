@@ -1,31 +1,34 @@
 <template>
-  <div ref="popupWindow" class="popup" v-if="visible&&searchWordResult.word" :style="{top:top,left:left}"
+  <div ref="popupWindow" class="popup" v-if="visible" style="margin:auto"
        @mouseup.stop="">
-    <flexbox orient="horizontal">
-      <!--拼写和音标-->
-      <flexbox-item><span class="spell">{{searchWordResult.word.spell}}</span>
-        <pronounce :word="searchWordResult.word"></pronounce>
-      </flexbox-item>
-
-      <!--加入生词本按钮-->
-      <flexbox-item span="2">
-        <img title="加入生词本" @click="addRawWord()" src="../assets/add.png" height="24px" width="24px"
-             style="position:relative; top:4px;"/>
-      </flexbox-item>
-    </flexbox>
-
-    <!--释义-->
-    <div>
-      <flexbox-item>
-        <div v-for="meaningItem in searchWordResult.word.meaningItems">
-          <span class="ciXing">{{meaningItem.ciXing}}</span><span>{{meaningItem.meaning}}</span></div>
-      </flexbox-item>
-    </div>
-
-    <!--单词发音-->
-    <audio ref="wordSound" v-if="searchWordResult.soundPath"
-           :src="soundBaseUrl + '/'+searchWordResult.soundPath+'.mp3'">
-    </audio>
+    <table style="width:100%;font-size: 14px; table-layout:fixed">
+      <tr>
+        <th style="width: 50%; word-break: break-all;">内容</th>
+        <th style="width: 10%">发送方</th>
+        <th style="width: 10%">目标方</th>
+        <th>更新时间</th>
+        <th>操作</th>
+      </tr>
+      <tr v-for="(msg,i) in msgs" :class="i%2?'odd':'even'">
+        <td @click="showdMsgInfo(msg);"
+            style="width: 40%; word-break: break-all;">{{msg.content}}
+        </td>
+        <td><img v-if="msg.fromUser.figureUrl"
+                 alt="QQ头像" style="height: 30px; width: 30px;"
+                 :src="msg.fromUser.figureUrl"/> {{msg.fromUser.displayNickName}}
+        </td>
+        <td><img v-if="msg.toUser.figureUrl"
+                 alt="QQ头像" style="height: 30px; width: 30px;"
+                 :src="msg.toUser.figureUrl"/> {{msg.toUser.displayNickName}}
+        </td>
+        <td>{{msg.updateTime | formatLongDate('yyyy-MM-dd HH:mm')}}</td>
+        <td><span> <a
+          href="javascript:;" @click="showdMsgInfo(msg)">查看</a>
+							</span>
+          <span > <a href="javascript:;" @click="deleteMsg(msg.id)">删除</a></span>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 <style scoped>
@@ -35,7 +38,15 @@
     border: 1px solid #999;
     padding: 8px;
     background-color: #99bbee;
-    max-width: 500px;
+    max-width: 800px;
+    max-height: 600px;
+
+    margin:0 auto;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    overflow:auto;
   }
 
   .ciXing {
@@ -68,38 +79,16 @@
         visible: false,
         top: '0px',
         left: '0px',
-        searchWordResult: {word: {}},
+        msgs: [],
         soundBaseUrl: config.soundBaseUrl
       }
     },
     methods: {
-      addRawWord () {
-        api.addRawWord(this.searchWordResult.word.spell, '逐个添加').then((res) => {
-          if (res.data.success) {
-            this.info('成功加入了生词本')
-          } else {
-            this.warn(res.data.msg)
-          }
-        })
-      },
-      show (spell) {
+      show (user1, user2, msgCount) {
         this.visible = false
-        api.searchWord(spell).then((res) => {
-          this.searchWordResult = res.data
-
-          if (!res.data.word) {
-            this.searchWordResult = {word: {}}
-            this.warn('单词不存在：' + spell)
-            return
-          }
-
+        api.getLastestMsgsBetweenTwoUsers(user1.id, user2.id, msgCount).then((res) => {
+          this.msgs = res.data
           this.visible = true
-          this.$nextTick(() => { // 由于播放声音依赖于DOM(Audio标签)，所以需要等到DOM刷新后才调用
-            // 单词自动发音
-            if (this.$refs.wordSound) {
-              this.$refs.wordSound.play()
-            }
-          })
         })
       },
       hide () {

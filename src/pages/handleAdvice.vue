@@ -4,21 +4,26 @@
       <table style="width:100%;font-size: 14px; table-layout:fixed">
         <tr>
           <th style="width: 50%; word-break: break-all;">内容</th>
-          <th style="width: 15%">提议人</th>
+          <th style="width: 15%">发送方</th>
+          <th style="width: 15%">目标方</th>
           <th>更新时间</th>
           <th>操作</th>
         </tr>
         <tr v-for="(msg,i) in msgs" :class="i%2?'odd':'even'">
-          <td @click="showdMsgInfo(msg.id);"
+          <td @click="showdMsgInfo(msg);"
               style="width: 40%; word-break: break-all;">{{msg.content}}
           </td>
-          <td @click="showdMsgInfo(msg.id)"><img v-if="msg.fromUser.figureUrl"
+          <td @click="showdMsgInfo(msg);"><img v-if="msg.fromUser.figureUrl"
                                                  alt="QQ头像" style="height: 30px; width: 30px;"
                                                  :src="msg.fromUser.figureUrl"/> {{msg.fromUser.displayNickName}}
           </td>
-          <td @click="showdMsgInfo(msg.id)">{{msg.updateTime | formatLongDate('yyyy-MM-dd HH:mm')}}</td>
+          <td @click="showdMsgInfo(msg);"><img v-if="msg.toUser.figureUrl"
+                                              alt="QQ头像" style="height: 30px; width: 30px;"
+                                              :src="msg.toUser.figureUrl"/> {{msg.toUser.displayNickName}}
+          </td>
+          <td  @click="showdMsgInfo(msg);">{{msg.updateTime | formatLongDate('yyyy-MM-dd HH:mm')}}</td>
           <td><span> <a
-            href="javascript:;" @click="showdMsgInfo(msg.id)">查看</a>
+            href="javascript:;" @click="showdMsgInfo(msg)">查看</a>
 							</span>
             <span > <a href="javascript:;" @click="deleteMsg(msg.id)">删除</a></span>
           </td>
@@ -134,7 +139,7 @@
         })
       },
       getMsgsByPage () {
-        api.getMsgsByPage(this.currentPage, this.pageSize).then((res) => {
+        api.getMsgsByPage(this.currentPage, this.pageSize, 'Advice', null).then((res) => {
           this.total = res.data.total
           this.msgs = res.data.rows
         })
@@ -147,8 +152,8 @@
           this.getMsgsByPage()
         })
       },
-      showdMsgInfo (postId) {
-        this.$refs.msgDetailWindow.show('face')
+      showdMsgInfo (msg) {
+        this.$refs.msgDetailWindow.show(msg.fromUser, msg.toUser, 20)
       },
       pageChange (page) {
         this.currentPage = page

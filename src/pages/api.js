@@ -35,8 +35,8 @@ export default {
     let params = {'page': page, 'rows': rows, 'sort': sort, 'order': order}
     return Vue.http.get(config.serviceBaseUrl + '/nnbdc-service/getForumPosts.do', {params: params})
   },
-  getMsgsByPage (page, rows, sort, order) {
-    let params = {'page': page, 'rows': rows}
+  getMsgsByPage (page, rows, msgType, toUser) {
+    let params = {'page': page, 'rows': rows, 'msgType': msgType, 'toUser': toUser}
     return Vue.http.get(config.serviceBaseUrl + '/nnbdc-service/getMsgsByPage.do', {params: params})
   },
   dismissStudyGroup (groupId, userId) {
@@ -317,5 +317,13 @@ export default {
   deleteSentenceDiyItem: function (diyItemId) {
     return Vue.http.post(config.serviceBaseUrl + '/nnbdc-service/deleteSentenceDiyItem.do',
       {emulateJSON: true}, {params: {id: diyItemId}})
+  },
+  getLastestMsgsBetweenTwoUsers: function (user1, user2, msgCount) {
+    let params = {
+      'user1': user1,
+      'user2': user2,
+      'msgCount': msgCount
+    }
+    return Vue.http.get(config.serviceBaseUrl + '/nnbdc-service/getLastestMsgsBetweenTwoUsers.do', {params: params})
   }
 }
