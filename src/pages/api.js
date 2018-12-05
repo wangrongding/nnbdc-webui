@@ -318,6 +318,10 @@ export default {
     return Vue.http.post(config.serviceBaseUrl + '/nnbdc-service/deleteSentenceDiyItem.do',
       {emulateJSON: true}, {params: {id: diyItemId}})
   },
+  replyAdvice: function (content, toUser) {
+    return Vue.http.post(config.serviceBaseUrl + '/nnbdc-service/replyAdvice.do',
+      {emulateJSON: true}, {params: {content: content, toUser: toUser}})
+  },
   getLastestMsgsBetweenTwoUsers: function (user1, user2, msgCount) {
     let params = {
       'user1': user1,

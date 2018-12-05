@@ -25,7 +25,6 @@
           <td><span> <a
             href="javascript:;" @click="showdMsgInfo(msg)">查看</a>
 							</span>
-            <span > <a href="javascript:;" @click="deleteMsg(msg.id)">删除</a></span>
           </td>
         </tr>
       </table>
@@ -106,7 +105,7 @@
   import { XButton, Flexbox, FlexboxItem } from 'vux'
   import api from './api'
   import MoPaging from '../components/paging.vue'
-  import MsgDetailWindow from '../components/MsgDetailWindow.vue'
+  import MsgDetailWindow from '../components/AdviceDetailWindow.vue'
 
   export default {
     data () {
@@ -146,11 +145,6 @@
       },
       createPost () {
         this.$router.push({path: '/createForumPost', query: {forumId: this.forum.id}})
-      },
-      deleteMsg (msgId) {
-        api.deleteMsg(msgId).then((res) => {
-          this.getMsgsByPage()
-        })
       },
       showdMsgInfo (msg) {
         this.$refs.msgDetailWindow.show(msg.fromUser, msg.toUser, 20)
