@@ -422,7 +422,7 @@
               <img src='../assets/delete-black.png' style='margin-left:24px' @click='deleteImage(image.id)'
                    v-if="image.author.userName == getLoggedInUser.userName || getLoggedInUser.isAdmin"/>
             </div>
-            <img style='width:120px;height:120px;' :src="imageBaseUrl + '/'+image.imageFile"/>
+            <img style='width:120px;height:120px;' :src="wordImageBaseUrl + '/'+image.imageFile"/>
           </a>
         </div>
       </div>
@@ -990,7 +990,7 @@
         additionalInfo: null,
         errorReport: null,
         isEditingChineseForShortDesc: false,
-        imageBaseUrl: config.imageBaseUrl,
+        wordImageBaseUrl: config.wordImageBaseUrl,
         inputedChineseOfWordShortDesc: '', // 用户输入的英文短描述中文释义
         inputedSpell: '' // 拼写练习输入框里输入的内容
       }

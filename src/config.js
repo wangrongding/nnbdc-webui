@@ -1,11 +1,13 @@
 export default {
-  // serviceBaseUrl: 'http://www.nnbdc.com/service',
-  // socketServerUrl: 'http://www.nnbdc.com/all',
-  // soundBaseUrl: 'http://www.nnbdc.com/sound',
-  // imageBaseUrl: 'http://www.nnbdc.com/res/img/word'
+  backendBaseUrl: 'http://www.nnbdc.com/service/nnbdc-service',
+  socketServerUrl: 'http://www.nnbdc.com/all',
+  frontendBaseUrl: 'http://www.nnbdc.com',
+  soundBaseUrl: 'http://www.nnbdc.com/sound',
+  wordImageBaseUrl: 'http://www.nnbdc.com/img/word'
 
-  serviceBaseUrl: 'http://localhost:8181',
-  socketServerUrl: 'http://localhost:9090/all',
-  soundBaseUrl: 'http://localhost:8181/sound',
-  imageBaseUrl: 'http://localhost:8181/res/img/word'
+  // backendBaseUrl: 'http://localhost:5200',
+  // socketServerUrl: 'http://192.168.1.161:9090/all',
+  // frontendBaseUrl: 'http://localhost:80',
+  // soundBaseUrl: 'http://localhost:80/sound',
+  // wordImageBaseUrl: 'http://localhost:80/img/word'
 }
