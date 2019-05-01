@@ -84,11 +84,11 @@ Vue.http.interceptors.push((request, next) => {
     if (response.status === 0) {
       console.log('request被取消')
     } else if (!response.ok) {
-      alert('系统发生故障，牛牛深表歉意。详细信息：' + response.status + '， ' + response.statusText)
-    } else {
-      var command = response.headers.map.command == null ? null : response.headers.map.command[0]
-      if (command === 'login') {
+      alert(response.status)
+      if (response.status === 401) {
         router.push({path: '/', query: {}})
+      } else {
+        alert('系统发生故障，牛牛深表歉意。详细信息：' + response.status + '， ' + response.statusText)
       }
     }
     return response
