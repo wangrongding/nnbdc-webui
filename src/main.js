@@ -84,7 +84,6 @@ Vue.http.interceptors.push((request, next) => {
     if (response.status === 0) {
       console.log('request被取消')
     } else if (!response.ok) {
-      alert(response.status)
       if (response.status === 401) {
         router.push({path: '/', query: {}})
       } else {
