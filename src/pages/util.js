@@ -1,3 +1,5 @@
+import config from '../config'
+
 export default {
   formatDate: function (date, format) { // 格式化日期
     var d = {
@@ -20,29 +22,6 @@ export default {
       }
     }
     return format
-  },
-  getCookRank (rank) {
-    switch (rank) {
-      case 'SUPER':
-        return '特级厨师'
-      case 'ONE':
-        return '一级厨师'
-      case 'TWO':
-        return '二级厨师'
-      case 'THREE':
-        return '三级厨师'
-      case 'FOUR':
-        return '四级厨师'
-    }
-  },
-  // 查找指定ID的行政区
-  getAddressById (addressId, addrData) {
-    for (let i = 0; i < addrData.length; i++) {
-      if (addrData[i].value === addressId) {
-        return addrData[i]
-      }
-    }
-    return null
   },
 
   // 计算两个日期的时间间隔
@@ -71,6 +50,14 @@ export default {
         return true
       }
       return false
+    }
+  },
+
+  wordSoundFile (word) {
+    if (word.sound) {
+      return config.soundBaseUrl + '/' + word.sound + '.mp3'
+    } else {
+      return null
     }
   }
 }

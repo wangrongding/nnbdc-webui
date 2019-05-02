@@ -8,7 +8,7 @@
     v-if="word.americaPronounce">[{{word.americaPronounce}}]</span>
 
     <!--英音-->
-    <img src="../assets/british.jpg" width=12 v-if="word.americaPronounce"/><span
+    <img src="../assets/british.jpg" width=12 v-if="word.britishPronounce"/><span
     v-if="word.britishPronounce">[{{word.britishPronounce}}]</span>
   </div>
 </template>

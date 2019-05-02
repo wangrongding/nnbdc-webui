@@ -9,7 +9,7 @@
 
       <tr v-for="(learningWord, i) in stageWords" @click='playSounds([$refs.wordSound[i]])' :class="i%2?'odd':'even'">
         <td style='padding:0'>
-          <audio ref="wordSound" v-if="learningWord.soundPath" :src="soundBaseUrl + '/'+learningWord.soundPath+'.mp3'">
+          <audio ref="wordSound" v-if="learningWord.sound" :src="soundBaseUrl + '/'+learningWord.soundPath+'.mp3'">
           </audio>
           <input type='text'
                  v-model="mode=='browse'||(focusedWords[i]&&currWordIndex!=i)?learningWord.word.spell:spellInputs[i]"

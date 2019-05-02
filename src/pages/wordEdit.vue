@@ -6,6 +6,17 @@
                @keydown.native="onSpellKeyDown($event)"></x-input>
     </group>
 
+    <!--单词发音-->
+    <pronounce :word="word"></pronounce>
+    <!--单词发音-->
+    <audio ref="wordSound" v-if="wordSoundFile" :src="wordSoundFile"
+           preload="none">
+      <BrowserTooOldForAudio/>
+    </audio>
+    <img title="单词发音" class='speaker' v-if="wordSoundFile" src='../assets/speaker.png'
+         @click="playSound($refs.wordSound)"
+         v-shortkey="['s']" @shortkey="playSound($refs.wordSound)"/>(S)
+
     <!--释义-->
     <group>
       <flexbox v-for="item in word.meaningItems" :key="item.id">
@@ -37,6 +48,14 @@
     padding: 16px;
   }
 
+  .speaker {
+    position: relative;
+    top: 8px;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+  }
+
   .vux-x-input {
     border-bottom: 1px solid #ddd;
   }
@@ -46,8 +65,10 @@
   }
 </style>
 <script>
-  import { mapActions } from 'vuex'
+  import {mapActions} from 'vuex'
   import api from './api'
+  import util from './util'
+  import BrowserTooOldForAudio from '../components/BrowserTooOldForAudio.vue'
   import {
     FlexboxItem,
     Flexbox,
@@ -62,7 +83,8 @@
       XInput,
       XButton,
       Flexbox,
-      FlexboxItem
+      FlexboxItem,
+      BrowserTooOldForAudio
     },
     data () {
       return {
@@ -73,11 +95,19 @@
       this.setNavVisible(true)
       this.setCurrMenuItem('单词编辑')
     },
+    computed: {
+      wordSoundFile () {
+        return util.wordSoundFile(this.word)
+      }
+    },
     methods: {
       ...mapActions([
         'setNavVisible',
         'setCurrMenuItem'
       ]),
+      playSound (audio) {
+        audio.play()
+      },
       addMeaningItem () {
         this.word.meaningItems.push({id: null, ciXing: '', meaning: ''})
       },
@@ -95,7 +125,6 @@
         }
       },
       deleteMeaningItem (itemId) {
-        console.log(this.word)
         for (let i = 0; i < this.word.meaningItems.length; i++) {
           let item = this.word.meaningItems[i]
           if (item.id === itemId) {

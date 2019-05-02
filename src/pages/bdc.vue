@@ -90,7 +90,8 @@
           <tr>
             <td class="no" v-shortkey="['2']" @shortkey="answerBtnClicked(2)" @click="answerBtnClicked(2)">2</td>
             <td class="answer answerBtn" @click="answerBtnClicked(2)">
-              {{correctIndex == 2 ? currWord.learningWord.word.meaningStr : (correctIndex == 1 ? currWord.otherWords[0].meaningStr : currWord.otherWords[1].meaningStr)}}
+              {{correctIndex == 2 ? currWord.learningWord.word.meaningStr : (correctIndex == 1 ?
+              currWord.otherWords[0].meaningStr : currWord.otherWords[1].meaningStr)}}
             </td>
             <td class="answerSearch"
                 @click="answerSearch(correctIndex==2?currWord.learningWord.word.spell:(correctIndex==1?currWord.otherWords[0].spell:currWord.otherWords[1].spell), $event)">
@@ -318,8 +319,8 @@
                 <td v-html="errorReport.content"></td>
                 <td>{{errorReport.createdByNickName}}</td>
                 <td><img v-if="errorReport.fixed" height=24
-                  width=24
-                  src='style/images/correct.png'/>
+                         width=24
+                         src='style/images/correct.png'/>
                 </td>
               </tr>
             </table>
@@ -394,7 +395,8 @@
       <div id="wordImageCount">
         <div class="count" v-shortkey="['v']"
              @shortkey="showWordImages=!showWordImages" @click="showWordImages=!showWordImages">
-          {{currWord.images.length > 0 ? ((currWord.images.length > 9 ? 9 : currWord.images.length) + '张图片(V)') : '无图片'}}
+          {{currWord.images.length > 0 ? ((currWord.images.length > 9 ? 9 : currWord.images.length) + '张图片(V)') :
+          '无图片'}}
         </div>
         <span v-show="showWordImages" style="font-size:9px">上传</span>
         <vue-file-upload v-show="showWordImages" ref="vueFileUploader" url="/service/nnbdc-service/uploadWordImg.do"
@@ -911,13 +913,14 @@
   }
 </style>
 <script>
-  import { mapActions, mapGetters } from 'vuex'
+  import {mapActions, mapGetters} from 'vuex'
   import VueFileUpload from 'vue-file-upload'
-  import { Group, Tab, TabItem, XButton, Flexbox, FlexboxItem, XInput, CheckIcon, XTextarea } from 'vux'
+  import {Group, Tab, TabItem, XButton, Flexbox, FlexboxItem, XInput, CheckIcon, XTextarea} from 'vux'
   import api from './api'
   import BrowserTooOldForAudio from '../components/BrowserTooOldForAudio.vue'
   import Highlight from '../components/Highlight.vue'
   import config from '../config'
+  import util from './util'
 
   export default {
     components: {
@@ -1036,11 +1039,7 @@
         }
       },
       wordSoundFile () {
-        if (this.currWord.soundPath) {
-          return config.soundBaseUrl + '/' + this.currWord.soundPath + '.mp3'
-        } else {
-          return null
-        }
+        return util.wordSoundFile(this.currWord)
       },
       isAnswerCorrect () {
         return this.currWord.learningWord.lifeValue === 0 || // 该单词已标记为"已掌握"

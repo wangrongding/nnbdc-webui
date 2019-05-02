@@ -23,8 +23,8 @@
     </div>
 
     <!--单词发音-->
-    <audio ref="wordSound" v-if="searchWordResult.soundPath"
-           :src="soundBaseUrl + '/'+searchWordResult.soundPath+'.mp3'">
+    <audio ref="wordSound" v-if="searchWordResult.sound"
+           :src="soundBaseUrl + '/'+searchWordResult.sound+'.mp3'">
     </audio>
   </div>
 </template>
