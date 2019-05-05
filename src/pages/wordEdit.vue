@@ -33,6 +33,19 @@
     </group>
     <x-button type="primary" @click.native="addMeaningItem()" v-if="word.id">添加释义项</x-button>
 
+    <!--例句-->
+    <group>
+      <flexbox v-for="item in word.sentences" :key="item.id">
+        <flexbox-item>
+          <x-input class="ciXing" v-model="item.english" :show-clear="false" placeholder="输入英文例句"></x-input>
+          <x-input v-model="item.chinese" :show-clear="false" placeholder="输入中文翻译"></x-input>
+        </flexbox-item>
+        <flexbox-item :span="1">
+          <x-button v-if="isPhase(word.spell)" type="warn" @click.native="deleteSentence(item.id)">删除</x-button>
+        </flexbox-item>
+      </flexbox>
+    </group>
+
     <flexbox orient="horizontal" style="margin-top:16px;">
       <flexbox-item>
         <x-button type="primary" @click.native="submit()">提交</x-button>
@@ -54,10 +67,6 @@
     height: 24px;
     width: 24px;
     cursor: pointer;
-  }
-
-  .vux-x-input {
-    border-bottom: 1px solid #ddd;
   }
 
   .ciXing {
@@ -105,6 +114,9 @@
         'setNavVisible',
         'setCurrMenuItem'
       ]),
+      isPhase (spell) {
+        return util.isPhase(spell)
+      },
       playSound (audio) {
         audio.play()
       },
@@ -129,6 +141,15 @@
           let item = this.word.meaningItems[i]
           if (item.id === itemId) {
             this.word.meaningItems.splice(i, 1)
+            break
+          }
+        }
+      },
+      deleteSentence (itemId) {
+        for (let i = 0; i < this.word.sentences.length; i++) {
+          let item = this.word.sentences[i]
+          if (item.id === itemId) {
+            this.word.sentences.splice(i, 1)
             break
           }
         }

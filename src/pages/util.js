@@ -59,5 +59,13 @@ export default {
     } else {
       return null
     }
+  },
+
+  clone (obj) {
+    return JSON.parse(JSON.stringify(obj))
+  },
+
+  isPhase (spell) {
+    return spell.trim().indexOf(' ') !== -1
   }
 }
